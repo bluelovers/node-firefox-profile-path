@@ -1,11 +1,19 @@
 {
   "name": "firefox-profile-path",
   "version": "1.0.0",
-  "description": "",
+  "description": "firefox profile finder",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "upath2": "*",
+    "ini": "*"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.4.2"
+  }
 }
