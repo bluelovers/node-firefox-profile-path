@@ -41,7 +41,7 @@ os_profile_list2()
   'n2c9big4.default': 'C:/Users/USER/AppData/Roaming/Mozilla/Firefox/Profiles/n2c9big4.default' }
 ```
 
-FirefoxProfilePath.pa_profile_list()
+pa_profile_list()
 ```
 { FirefoxPortable2ndProfile: 'D:/Program Files (Portable)/PortableApps/PortableApps/FirefoxPortable2ndProfile/Data/profile',
   FirefoxTWPortable: 'D:/Program Files (Portable)/PortableApps/PortableApps/FirefoxTWPortable/Data/profile' }
