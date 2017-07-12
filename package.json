@@ -15,5 +15,24 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "mocha": "^3.4.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/node-firefox-profile-path.git"
+  },
+  "keywords": [
+    "firefox",
+    "profile",
+    "portableapps",
+    "path",
+    "mozilla",
+    "finder"
+  ],
+  "bugs": {
+    "url": "https://github.com/bluelovers/node-firefox-profile-path/issues"
+  },
+  "homepage": "https://github.com/bluelovers/node-firefox-profile-path#readme"
 }
