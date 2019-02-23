@@ -188,7 +188,7 @@ export interface IReturnMapList
 export interface IFirefoxProfilesIni
 {
 	General: {
-		StartWithLastProfile: EnumTrueFalseNumber,
+		StartWithLastProfile: IEnumTrueFalse,
 		[key: string]: any,
 	},
 
@@ -198,14 +198,22 @@ export interface IFirefoxProfilesIni
 export interface IFirefoxProfilesIniItem
 {
 	Name: string,
-	IsRelative: EnumTrueFalseNumber,
+	IsRelative: IEnumTrueFalse,
 	Path: string,
 }
+
+export type IEnumTrueFalse = EnumTrueFalseNumber | EnumTrueFalseString;
 
 export const enum EnumTrueFalseNumber
 {
 	FALSE = 0,
 	TRUE = 1
+}
+
+export const enum EnumTrueFalseString
+{
+	FALSE = '0',
+	TRUE = '1'
 }
 
 export default exports as typeof import('./index');
