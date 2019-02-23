@@ -4,7 +4,7 @@
 
 'use strict';
 
-import * as path from 'upath2';
+import * as path from 'upath';
 import fs from 'fs';
 import ini from 'ini';
 
