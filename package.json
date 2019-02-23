@@ -1,38 +1,43 @@
 {
   "name": "firefox-profile-path",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "firefox profile finder",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "mocha"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "upath": "*",
-    "ini": "*"
-  },
-  "devDependencies": {
-    "chai": "^4.1.0",
-    "mocha": "^6.0.1"
-  },
-  "directories": {
-    "test": "test"
+  "keywords": [
+    "finder",
+    "firefox",
+    "mozilla",
+    "path",
+    "portableapps",
+    "profile"
+  ],
+  "homepage": "https://github.com/bluelovers/node-firefox-profile-path#readme",
+  "bugs": {
+    "url": "https://github.com/bluelovers/node-firefox-profile-path/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bluelovers/node-firefox-profile-path.git"
   },
-  "keywords": [
-    "firefox",
-    "profile",
-    "portableapps",
-    "path",
-    "mozilla",
-    "finder"
-  ],
-  "bugs": {
-    "url": "https://github.com/bluelovers/node-firefox-profile-path/issues"
+  "license": "ISC",
+  "author": "",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "test"
   },
-  "homepage": "https://github.com/bluelovers/node-firefox-profile-path#readme"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ini": "^1.3.5",
+    "upath": "^1.1.0"
+  },
+  "devDependencies": {
+    "@bluelovers/tsconfig": "^1.0.1"
+  },
+  "peerDependencies": {
+    "@types/ini": "^1.3.30",
+    "@types/node": "^11.9.5",
+    "chai": "^4.1.0",
+    "mocha": "^6.0.1"
+  }
 }

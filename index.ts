@@ -4,22 +4,18 @@
 
 'use strict';
 
-import * as path from 'upath';
-import fs from 'fs';
-import ini from 'ini';
+import path = require('upath');
+import fs = require('fs');
+import ini  = require('ini');
 
 /**
  * get Firefox Data dir
  *
- * @param platform
- * @param env - APPDATA, HOME, USERPROFILE
- * @returns {*}
- *
  * @see https://github.com/saadtazi/firefox-profile-js/blob/5c4a98f6e2977a2efc10afaecf1f86d621b7f069/lib/profile_finder.js
  */
-export function os_appdata(platform = process.platform, env = process.env)
+export function os_appdata(platform: string = process.platform, env: IEnv = process.env)
 {
-	let profiledir = null;
+	let profiledir: string = null;
 
 	switch (platform)
 	{
@@ -46,27 +42,19 @@ export function os_appdata(platform = process.platform, env = process.env)
 
 /**
  * parse firefox profile ini
- *
- * @param platform
- * @param env
- * @returns {*|number}
  */
-export function os_profile_ini(platform = process.platform, env = process.env)
+export function os_profile_ini(platform: string = process.platform, env: IEnv = process.env)
 {
 	let basedir = os_appdata(platform, env);
 
 	let profiles = fs.readFileSync(path.join(basedir, 'profiles.ini'));
-	return ini.parse(profiles.toString());
+	return ini.parse(profiles.toString()) as IFirefoxProfilesIni;
 }
 
 /**
  * get profile list from profile.ini
- *
- * @param platform
- * @param env
- * @returns {*}
  */
-export function os_profile_list(platform = process.platform, env = process.env)
+export function os_profile_list(platform: string = process.platform, env: IEnv = process.env): IReturnMapList
 {
 	let basedir = os_appdata(platform, env);
 	let profile = os_profile_ini(platform, env);
@@ -74,7 +62,7 @@ export function os_profile_list(platform = process.platform, env = process.env)
 	return Object.keys(profile)
 		.reduce((a, b) =>
 		{
-			let dir = profile[b].Path;
+			let dir: string = profile[b].Path;
 
 			if (/^Profile(\d+)$/.test(b) && dir)
 			{
@@ -90,18 +78,15 @@ export function os_profile_list(platform = process.platform, env = process.env)
 			}
 
 			return a;
-		}, {})
+		}, {} as IReturnMapList)
 	;
 }
 
 /**
  * get profile list by search profile dir
  *
- * @param platform
- * @param env
- * @returns {*}
  */
-export function os_profile_list2(platform = process.platform, env = process.env)
+export function os_profile_list2(platform: string = process.platform, env: IEnv = process.env): IReturnMapList
 {
 	let basedir = os_appdata(platform, env);
 
@@ -135,26 +120,23 @@ export function os_profile_list2(platform = process.platform, env = process.env)
 		}
 
 		return a;
-	}, {});
+	}, {} as IReturnMapList);
 }
 
 /**
  * get profile list from PortableApps env
  * only for windows system
- *
- * @param env - PAL:PortableAppsBaseDir
- * @returns {*}
  */
-export function pa_profile_list(env = process.env)
+export function pa_profile_list(env: IEnv = process.env): IReturnMapList
 {
 	//console.log(env['PAL:PortableAppsBaseDir']);
 
 	if (env['PAL:PortableAppsBaseDir'])
 	{
 		let basedir = path.join(env['PAL:PortableAppsBaseDir'], 'PortableApps');
-		let ls;
+		let ls = fs.readdirSync(basedir);
 
-		if (ls = fs.readdirSync(basedir))
+		if (ls)
 		{
 			return ls.reduce((a, b) =>
 			{
@@ -185,9 +167,45 @@ export function pa_profile_list(env = process.env)
 				}
 
 				return a;
-			}, {})
+			}, {} as IReturnMapList)
 		}
 	}
 
-	return false;
+	return null;
 }
+
+export type IEnv = typeof process.env & {
+	HOME?: string,
+	USERPROFILE?: string,
+	'PAL:PortableAppsBaseDir'?: string,
+}
+
+export interface IReturnMapList
+{
+	[k: string]: string,
+}
+
+export interface IFirefoxProfilesIni
+{
+	General: {
+		StartWithLastProfile: EnumTrueFalseNumber,
+		[key: string]: any,
+	},
+
+	[key: string]: any | IFirefoxProfilesIniItem;
+}
+
+export interface IFirefoxProfilesIniItem
+{
+	Name: string,
+	IsRelative: EnumTrueFalseNumber,
+	Path: string,
+}
+
+export const enum EnumTrueFalseNumber
+{
+	FALSE = 0,
+	TRUE = 1
+}
+
+export default exports as typeof import('./index');
