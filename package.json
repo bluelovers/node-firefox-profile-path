@@ -1,6 +1,6 @@
 {
   "name": "firefox-profile-path",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "firefox profile finder",
   "keywords": [
     "finder",
@@ -45,6 +45,5 @@
     "@bluelovers/tsconfig": "^1.0.19",
     "@types/ini": "^1.3.30",
     "@types/node": "^13.13.5"
-  },
-  "peerDependencies": {}
+  }
 }
