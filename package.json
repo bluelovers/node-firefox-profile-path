@@ -1,6 +1,6 @@
 {
   "name": "firefox-profile-path",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "firefox profile finder",
   "keywords": [
     "finder",
@@ -20,7 +20,7 @@
   },
   "license": "ISC",
   "author": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
