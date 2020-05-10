@@ -4,9 +4,9 @@
 
 'use strict';
 
-import path = require('upath');
-import fs = require('fs');
-import ini  = require('ini');
+import { join, basename } from 'upath';
+import { statSync, readdirSync, readFileSync } from 'fs';
+import { parse } from 'ini';
 
 /**
  * get Firefox Data dir
@@ -20,20 +20,20 @@ export function os_appdata(platform: string = process.platform, env: IEnv = proc
 	switch (platform)
 	{
 		case 'darwin':
-			profiledir = path.join(env.HOME, 'Library/Application Support/Firefox');
+			profiledir = join(env.HOME, 'Library/Application Support/Firefox');
 			break;
 		case 'linux':
-			profiledir = path.join(env.HOME, '.mozilla/firefox');
+			profiledir = join(env.HOME, '.mozilla/firefox');
 			break;
 		case 'win32':
 		default:
 
 			if (!env.APPDATA)
 			{
-				env.APPDATA = path.join(env.HOME || env.USERPROFILE, 'AppData/Roaming');
+				env.APPDATA = join(env.HOME || env.USERPROFILE, 'AppData/Roaming');
 			}
 
-			profiledir = path.join(env.APPDATA, 'Mozilla/Firefox');
+			profiledir = join(env.APPDATA, 'Mozilla/Firefox');
 			break;
 	}
 
@@ -47,8 +47,8 @@ export function os_profile_ini(platform: string = process.platform, env: IEnv = 
 {
 	let basedir = os_appdata(platform, env);
 
-	let profiles = fs.readFileSync(path.join(basedir, 'profiles.ini'));
-	return ini.parse(profiles.toString()) as IFirefoxProfilesIni;
+	let profiles = readFileSync(join(basedir, 'profiles.ini'));
+	return parse(profiles.toString()) as IFirefoxProfilesIni;
 }
 
 /**
@@ -67,11 +67,11 @@ export function os_profile_list(platform: string = process.platform, env: IEnv =
 			if (/^Profile(\d+)$/.test(b) && dir)
 			{
 				// some profile has same name, so use dir name
-				let name = path.basename(dir);
+				let name = basename(dir);
 
 				if (profile[b].IsRelative)
 				{
-					dir = path.join(basedir, dir)
+					dir = join(basedir, dir)
 				}
 
 				a[name] = dir;
@@ -90,17 +90,17 @@ export function os_profile_list2(platform: string = process.platform, env: IEnv 
 {
 	let basedir = os_appdata(platform, env);
 
-	basedir = path.join(basedir, 'Profiles');
+	basedir = join(basedir, 'Profiles');
 
-	let ls = fs.readdirSync(basedir);
+	let ls = readdirSync(basedir);
 
 	return ls.reduce((a, b) =>
 	{
-		let dir = path.join(basedir, b);
+		let dir = join(basedir, b);
 
 		try
 		{
-			let stat = fs.statSync(dir);
+			let stat = statSync(dir);
 
 			if (stat.isDirectory())
 			{
@@ -133,20 +133,20 @@ export function pa_profile_list(env: IEnv = process.env): IReturnMapList
 
 	if (env['PAL:PortableAppsBaseDir'])
 	{
-		let basedir = path.join(env['PAL:PortableAppsBaseDir'], 'PortableApps');
-		let ls = fs.readdirSync(basedir);
+		let basedir = join(env['PAL:PortableAppsBaseDir'], 'PortableApps');
+		let ls = readdirSync(basedir);
 
 		if (ls)
 		{
 			return ls.reduce((a, b) =>
 			{
-				let dir = path.join(basedir, b, 'Data/profile');
+				let dir = join(basedir, b, 'Data/profile');
 
 				if (/^Firefox(.*)?Portable/i.test(b))
 				{
 					try
 					{
-						let stat = fs.statSync(dir);
+						let stat = statSync(dir);
 
 						if (stat.isDirectory())
 						{
@@ -172,6 +172,16 @@ export function pa_profile_list(env: IEnv = process.env): IReturnMapList
 	}
 
 	return null;
+}
+
+declare global
+{
+	interface ProcessEnv
+	{
+		HOME?: string,
+		USERPROFILE?: string,
+		'PAL:PortableAppsBaseDir'?: string,
+	}
 }
 
 export type IEnv = typeof process.env & {

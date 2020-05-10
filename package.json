@@ -19,25 +19,32 @@
     "url": "git+https://github.com/bluelovers/node-firefox-profile-path.git"
   },
   "license": "ISC",
-  "author": "",
+  "author": "bluelovers",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
+  "workspaces": [
+    "."
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "npm:publish": "npm publish",
+    "npm:publish:lerna": "npx lerna publish --yes --cd-version patch",
+    "prepublish:lockfile": "npx sync-lockfile .",
+    "prepublishOnly_": "yarn run ncu && yarn run sort-package-json && yarn run test",
+    "postpublish_": "git commit -m \"chore(release): publish\" .",
+    "ncu": "npx yarn-tool ncu -u",
+    "sort-package-json": "npx yarn-tool sort"
   },
   "dependencies": {
     "ini": "^1.3.5",
-    "upath": "^1.1.0"
+    "upath": "^1.2.0"
   },
   "devDependencies": {
-    "@bluelovers/tsconfig": "^1.0.1"
-  },
-  "peerDependencies": {
+    "@bluelovers/tsconfig": "^1.0.19",
     "@types/ini": "^1.3.30",
-    "@types/node": "^11.9.5",
-    "chai": "^4.1.0",
-    "mocha": "^6.0.1"
-  }
+    "@types/node": "^13.13.5"
+  },
+  "peerDependencies": {}
 }

@@ -25,6 +25,13 @@ export declare function os_profile_list2(platform?: string, env?: IEnv): IReturn
  * only for windows system
  */
 export declare function pa_profile_list(env?: IEnv): IReturnMapList;
+declare global {
+    interface ProcessEnv {
+        HOME?: string;
+        USERPROFILE?: string;
+        'PAL:PortableAppsBaseDir'?: string;
+    }
+}
 export declare type IEnv = typeof process.env & {
     HOME?: string;
     USERPROFILE?: string;
